@@ -1,0 +1,105 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+abstract class Stone {
+    String name;
+    double caratWeight;
+    double pricePerCarat;
+
+    Stone(String name, double caratWeight, double pricePerCarat) {
+        this.name = name;
+        this.caratWeight = caratWeight;
+        this.pricePerCarat = pricePerCarat;
+    }
+    double calculateCost() {
+        return caratWeight * pricePerCarat;
+    }
+}
+
+class PreciousStone extends Stone {
+    PreciousStone(String name, double caratWeight, double pricePerCarat) {
+        super(name, caratWeight, pricePerCarat);
+    }
+}
+
+class SemiPreciousStone extends Stone {
+    SemiPreciousStone(String name, double caratWeight, double pricePerCarat) {
+        super(name, caratWeight, pricePerCarat);
+    }
+}
+
+class Necklace {
+    List<Stone> stones;
+
+    Necklace() {
+        this.stones = new ArrayList<>();
+    }
+
+    void addStone(Stone stone) {
+        stones.add(stone);
+    }
+
+    double calculateTotalWeight() {
+        double totalWeight = 0.0;
+
+        for (Stone stone : stones) {
+            totalWeight += stone.caratWeight;
+        }
+
+        return totalWeight;
+    }
+
+    double calculateTotalCost() {
+        double totalCost = 0.0;
+
+        for (Stone stone : stones) {
+            totalCost += stone.calculateCost();
+        }
+
+        return totalCost;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        Necklace myNecklace = new Necklace();
+        
+        System.out.println("Enter stones for the necklace (type 'done' to finish):");
+        while (true) {
+            System.out.print("Stone name: ");
+            String name = scanner.next();
+            if (name.equalsIgnoreCase("done")) {
+                break;
+            }
+
+            System.out.print("Carat weight: ");
+            double caratWeight = scanner.nextDouble();
+
+            System.out.print("Price per carat: ");
+            double pricePerCarat = scanner.nextDouble();
+
+            System.out.print("Is it precious? (true/false): ");
+            boolean isPrecious = scanner.nextBoolean();
+            
+            Stone stone;
+            if (isPrecious) {
+                stone = new PreciousStone(name, caratWeight, pricePerCarat);
+            } else {
+                stone = new SemiPreciousStone(name, caratWeight, pricePerCarat);
+            }
+
+            myNecklace.addStone(stone);
+        }
+        
+        double totalWeight = myNecklace.calculateTotalWeight();
+        double totalCost = myNecklace.calculateTotalCost();
+
+        System.out.println("Total Weight of the Necklace: " + totalWeight + " carats");
+        System.out.println("Total Cost of the Necklace: " + totalCost + " KZT");
+        
+        scanner.close();
+    }
+}
