@@ -1,0 +1,75 @@
+import java.util.ArrayList;
+import java.util.List;
+
+class Employee {
+    private String name;
+    private String position;
+    private double salary;
+
+    public Employee(String name, String position, double salary) {
+        this.name = name;
+        this.position = position;
+        this.salary = salary;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "name='" + name + '\'' +
+                ", position='" + position + '\'' +
+                ", salary=" + salary +
+                '}';
+    }
+}
+
+class Project {
+    private String name;
+    private List<Employee> team = new ArrayList<>();
+
+    public Project(String name) {
+        this.name = name;
+    }
+
+    public void addEmployee(Employee employee) {
+        team.add(employee);
+    }
+
+    public double calculateTotalCost() {
+        double totalCost = 0;
+        for (Employee employee : team) {
+            totalCost += employee.getSalary();
+        }
+        return totalCost;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "name='" + name + '\'' +
+                ", team=" + team +
+                '}';
+    }
+
+    public static void main(String[] args) {
+        Employee manager = new Employee("Arman Manager", "Manager", 1000000);
+        Employee developer1 = new Employee("Erbol Developer", "Developer", 600000);
+        Employee developer2 = new Employee("Ramazan Developer", "Developer", 650000);
+
+        Project softwareProject = new Project("Software Project");
+
+        softwareProject.addEmployee(manager);
+        softwareProject.addEmployee(developer1);
+        softwareProject.addEmployee(developer2);
+
+        System.out.println("Project Details:");
+        System.out.println(softwareProject);
+
+        double totalCost = softwareProject.calculateTotalCost();
+        System.out.println("Total Project Cost: " + totalCost + "тг");
+    }
+}
+
